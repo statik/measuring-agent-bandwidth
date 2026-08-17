@@ -11,8 +11,8 @@ a clear verdict.
 
 **[Example report (PDF)](docs/example/posit-workshop.pdf)** — a 20-student
 Posit Assistant workshop. The punchline: 33.66 GB of one-time installer and
-package downloads, versus **144.89 MB** of AI assistant traffic for the whole
-room across the entire 6-hour session — an average of 0.054 Mbps, less than
+package downloads, versus **385.78 MB** of AI assistant traffic for the whole
+room across the entire 6-hour session — an average of 0.14 Mbps, less than
 one video call.
 
 ## Run the Shiny app
@@ -70,14 +70,21 @@ conversation length while responses stream back as a trickle of text. The
 model uses 4 bytes per request token, 30 bytes per streamed token (including
 SSE framing), 1.08× protocol overhead, and ~75 tokens/second of streaming.
 Provider-side prompt caching reduces cost and latency, not network transfer.
-Even generous assumptions leave a full day of agentic use per student in the
-tens of megabytes — the modeling error is irrelevant next to a single
-installer.
+The conversation shapes are calibrated against aggregate token metadata from
+hundreds of real coding-agent sessions (median: ~4.4 MB on the wire per
+session); run `uv run python -m netimpact.calibrate` against your own
+agentsview database to recalibrate. Even the heavy presets leave a full day
+of agentic use per student in the tens of megabytes — the modeling error is
+irrelevant next to a single installer.
 
 **Scale math.** Per-item sizes × students × share give room aggregates; the
 report shows how long the worst-case "everyone downloads everything at once"
-burst takes at common venue link speeds, assuming 70% of link speed as
-real-world Wi-Fi goodput.
+burst takes at common venue link speeds, assuming shared Wi-Fi delivers about
+70% of the advertised link speed to actual downloads.
+
+The assistant model — every constant, the conversation rubric behind the
+presets, and the grounding for each assumption — is documented in
+[METHODOLOGY.md](METHODOLOGY.md).
 
 ### Validating against real traffic
 

@@ -1,6 +1,6 @@
 {
   "tool": "netimpact 0.1.0",
-  "generated": "2026-08-17T20:36:51+00:00",
+  "generated": "2026-08-17T21:08:43+00:00",
   "workshop": {
     "name": "Posit Assistant Workshop",
     "students": 20,
@@ -9,7 +9,7 @@
   "verdict": {
     "label": "MODERATE",
     "color": "#c2762c",
-    "impact": "AI assistant traffic is negligible: 144.89 MB for the whole room over the full session, averaging 0.054 Mbps \u2014 less than one video call. Plan around the one-time 33.66 GB download burst: stagger the install step or ask attendees to install before arriving."
+    "impact": "AI assistant traffic is negligible: 385.78 MB for the whole room over the full session, averaging 0.143 Mbps \u2014 less than one video call. Plan around the one-time 33.66 GB download burst: stagger the install step or ask attendees to install before arriving."
   },
   "one_time": {
     "groups": [
@@ -115,11 +115,11 @@
         "name": "First conversation with Posit Assistant",
         "conversations_per_student": 1,
         "requests_per_conversation": 16,
-        "uplink_bytes_per_conversation": 1313280,
-        "downlink_bytes_per_conversation": 362880,
-        "bytes_per_student": 1676160,
+        "uplink_bytes_per_conversation": 2419200,
+        "downlink_bytes_per_conversation": 259200,
+        "bytes_per_student": 2678400,
         "share": 1.0,
-        "aggregate_bytes": 33523200
+        "aggregate_bytes": 53568000
       },
       {
         "name": "querychat exercises (natural-language data queries)",
@@ -134,17 +134,17 @@
       {
         "name": "General assistant use (debugging, plots, dashboards)",
         "conversations_per_student": 4,
-        "requests_per_conversation": 12,
-        "uplink_bytes_per_conversation": 920160,
-        "downlink_bytes_per_conversation": 311040,
-        "bytes_per_student": 4924800,
+        "requests_per_conversation": 21,
+        "uplink_bytes_per_conversation": 3719520,
+        "downlink_bytes_per_conversation": 272160,
+        "bytes_per_student": 15966720,
         "share": 1.0,
-        "aggregate_bytes": 98496000
+        "aggregate_bytes": 319334400
       }
     ],
-    "aggregate_bytes": 144892800,
-    "average_bytes_per_student": 7244640,
-    "average_mbps": 0.054,
+    "aggregate_bytes": 385776000,
+    "average_bytes_per_student": 19288800,
+    "average_mbps": 0.143,
     "all_streaming_at_once_mbps": 0.39
   },
   "download_burst": [

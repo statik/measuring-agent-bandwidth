@@ -4,6 +4,13 @@ Each preset is a list of modeled activity blocks. The token counts describe
 how a conversation's context grows: chat APIs are stateless, so every round
 trip re-sends the conversation so far. An agentic user turn (the assistant
 runs code, reads data, then answers) is typically 2-5 round trips.
+
+The agentic blocks are calibrated against aggregate token metadata from 597
+real coding-agent sessions (medians: 21 round trips, 24k-token starting
+context, ~1.5k tokens of growth per round trip, ~330 output tokens per
+response). The querychat block instead follows that tool's design: one round
+trip per question, schema-sized prompt, SQL-sized answers. See METHODOLOGY.md
+for the grounding and the calibration procedure.
 """
 
 from __future__ import annotations
@@ -15,9 +22,9 @@ FIRST_CONVERSATION = ChatItem(
     share=1.0,
     conversations=1,
     requests=16,
-    context_tokens_start=4000,
+    context_tokens_start=20000,
     context_growth_tokens=2000,
-    response_tokens=700,
+    response_tokens=500,
 )
 
 QUERYCHAT_EXERCISES = ChatItem(
@@ -34,20 +41,20 @@ GENERAL_USE = ChatItem(
     name="General assistant use (debugging, plots, dashboards)",
     share=1.0,
     conversations=4,
-    requests=12,
-    context_tokens_start=4000,
-    context_growth_tokens=2500,
-    response_tokens=800,
+    requests=21,
+    context_tokens_start=24000,
+    context_growth_tokens=1700,
+    response_tokens=400,
 )
 
 SUSTAINED_AGENTIC = ChatItem(
     name="Sustained agentic sessions (long tool-use loops)",
     share=1.0,
-    conversations=6,
-    requests=24,
-    context_tokens_start=6000,
-    context_growth_tokens=3500,
-    response_tokens=900,
+    conversations=2,
+    requests=48,
+    context_tokens_start=36000,
+    context_growth_tokens=2400,
+    response_tokens=550,
 )
 
 PRESETS: dict[str, list[ChatItem]] = {
