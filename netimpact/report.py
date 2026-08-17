@@ -186,9 +186,9 @@ def _typst_burst(results: dict) -> str:
   {joined}
 )
 #v(3pt)
-#text(size: 9pt, fill: luma(35%))[Assumes {goodput}% of link speed as real-world Wi-Fi goodput.
-Staggering the install step or asking attendees to install before arriving removes this burst
-entirely.]
+#text(size: 9pt, fill: luma(35%))[Assumes shared Wi-Fi delivers about {goodput}% of the
+advertised link speed to actual downloads. Staggering the install step or asking attendees to
+install before arriving removes this burst entirely.]
 """
 
 
@@ -203,7 +203,8 @@ def _typst_assumptions(results: dict) -> str:
   SSE framing, {a["protocol_overhead"]:g}\u00d7 TLS/HTTP overhead, responses streaming at
   {a["stream_tokens_per_second"]} tokens/second. Chat APIs are stateless — each round trip
   re-sends the conversation so far, which the model accounts for; provider-side prompt caching
-  reduces cost and latency but not network transfer.
+  reduces cost and latency but not network transfer. Full model description and grounding:
+  github.com/statik/measuring-agent-bandwidth (METHODOLOGY.md).
 ]
 """
 
@@ -375,9 +376,9 @@ def _html_burst(results: dict) -> list[str]:
         )
     parts.append("</table>")
     parts.append(
-        f'<div class="note" style="margin-top:5px">Assumes {goodput}% of link speed as real-world '
-        "Wi-Fi goodput. Staggering the install step or asking attendees to install before "
-        "arriving removes this burst entirely.</div>"
+        f'<div class="note" style="margin-top:5px">Assumes shared Wi-Fi delivers about {goodput}% '
+        "of the advertised link speed to actual downloads. Staggering the install step or asking "
+        "attendees to install before arriving removes this burst entirely.</div>"
     )
     return parts
 
