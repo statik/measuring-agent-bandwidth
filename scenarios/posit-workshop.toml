@@ -1,0 +1,28 @@
+# Example scenario: a 20-student hands-on workshop using Posit Assistant.
+#
+# Students install Python, R, Positron, and RStudio at the venue, install the
+# querychat and shinychat packages in both languages, have their first
+# conversation with Posit Assistant, and use the assistant through half a day
+# of exercises.
+
+[workshop]
+name = "Posit Assistant Workshop"
+students = 20
+duration_hours = 6
+
+[installers]
+products = ["python", "r", "positron", "rstudio"]
+mac_share = 0.5
+
+[[pypi]]
+name = "Python packages: querychat + shinychat"
+group = "Workshop packages"
+packages = ["querychat", "shinychat"]
+
+[[cran]]
+name = "R packages: querychat + shinychat"
+group = "Workshop packages"
+packages = ["querychat", "shinychat"]
+
+[assistant]
+preset = "half-day-workshop"

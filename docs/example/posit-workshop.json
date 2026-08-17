@@ -1,0 +1,179 @@
+{
+  "tool": "netimpact 0.1.0",
+  "generated": "2026-08-17T20:36:51+00:00",
+  "workshop": {
+    "name": "Posit Assistant Workshop",
+    "students": 20,
+    "duration_hours": 6.0
+  },
+  "verdict": {
+    "label": "MODERATE",
+    "color": "#c2762c",
+    "impact": "AI assistant traffic is negligible: 144.89 MB for the whole room over the full session, averaging 0.054 Mbps \u2014 less than one video call. Plan around the one-time 33.66 GB download burst: stagger the install step or ask attendees to install before arriving."
+  },
+  "one_time": {
+    "groups": [
+      {
+        "group": "Installers",
+        "items": [
+          {
+            "name": "Python (macOS)",
+            "bytes_each": 78557763,
+            "share": 0.5,
+            "downloads": 10.0,
+            "aggregate_bytes": 785577630,
+            "detail": "python-3.14.7-macos11.pkg"
+          },
+          {
+            "name": "Python (Windows)",
+            "bytes_each": 33258168,
+            "share": 0.5,
+            "downloads": 10.0,
+            "aggregate_bytes": 332581680,
+            "detail": "python-3.14.7-amd64.exe"
+          },
+          {
+            "name": "R (macOS)",
+            "bytes_each": 105066342,
+            "share": 0.5,
+            "downloads": 10.0,
+            "aggregate_bytes": 1050663420,
+            "detail": "R-4.6.1-arm64.pkg"
+          },
+          {
+            "name": "R (Windows)",
+            "bytes_each": 91749976,
+            "share": 0.5,
+            "downloads": 10.0,
+            "aggregate_bytes": 917499760,
+            "detail": "R-4.6.1-win.exe"
+          },
+          {
+            "name": "Positron (macOS)",
+            "bytes_each": 1045024118,
+            "share": 0.5,
+            "downloads": 10.0,
+            "aggregate_bytes": 10450241180,
+            "detail": "Positron-2026.08.1-2-arm64.dmg"
+          },
+          {
+            "name": "Positron (Windows)",
+            "bytes_each": 522833688,
+            "share": 0.5,
+            "downloads": 10.0,
+            "aggregate_bytes": 5228336880,
+            "detail": "Positron-2026.08.1-2-UserSetup-x64.exe"
+          },
+          {
+            "name": "RStudio Desktop (macOS)",
+            "bytes_each": 852532730,
+            "share": 0.5,
+            "downloads": 10.0,
+            "aggregate_bytes": 8525327300,
+            "detail": "RStudio-2026.08.0-187.dmg"
+          },
+          {
+            "name": "RStudio Desktop (Windows)",
+            "bytes_each": 399461584,
+            "share": 0.5,
+            "downloads": 10.0,
+            "aggregate_bytes": 3994615840,
+            "detail": "RStudio-2026.08.0-187.exe"
+          }
+        ],
+        "aggregate_bytes": 31284843690
+      },
+      {
+        "group": "Workshop packages",
+        "items": [
+          {
+            "name": "Python packages: querychat + shinychat",
+            "bytes_each": 67811334,
+            "share": 1.0,
+            "downloads": 20.0,
+            "aggregate_bytes": 1356226680,
+            "detail": "71 packages resolved from querychat, shinychat"
+          },
+          {
+            "name": "R packages: querychat + shinychat",
+            "bytes_each": 50731010,
+            "share": 1.0,
+            "downloads": 20.0,
+            "aggregate_bytes": 1014620200,
+            "detail": "48 packages resolved from querychat, shinychat"
+          }
+        ],
+        "aggregate_bytes": 2370846880
+      }
+    ],
+    "aggregate_bytes": 33655690570,
+    "average_bytes_per_student": 1682784528
+  },
+  "assistant": {
+    "items": [
+      {
+        "name": "First conversation with Posit Assistant",
+        "conversations_per_student": 1,
+        "requests_per_conversation": 16,
+        "uplink_bytes_per_conversation": 1313280,
+        "downlink_bytes_per_conversation": 362880,
+        "bytes_per_student": 1676160,
+        "share": 1.0,
+        "aggregate_bytes": 33523200
+      },
+      {
+        "name": "querychat exercises (natural-language data queries)",
+        "conversations_per_student": 2,
+        "requests_per_conversation": 10,
+        "uplink_bytes_per_conversation": 224640,
+        "downlink_bytes_per_conversation": 97200,
+        "bytes_per_student": 643680,
+        "share": 1.0,
+        "aggregate_bytes": 12873600
+      },
+      {
+        "name": "General assistant use (debugging, plots, dashboards)",
+        "conversations_per_student": 4,
+        "requests_per_conversation": 12,
+        "uplink_bytes_per_conversation": 920160,
+        "downlink_bytes_per_conversation": 311040,
+        "bytes_per_student": 4924800,
+        "share": 1.0,
+        "aggregate_bytes": 98496000
+      }
+    ],
+    "aggregate_bytes": 144892800,
+    "average_bytes_per_student": 7244640,
+    "average_mbps": 0.054,
+    "all_streaming_at_once_mbps": 0.39
+  },
+  "download_burst": [
+    {
+      "link_mbps": 50,
+      "minutes": 128.2
+    },
+    {
+      "link_mbps": 100,
+      "minutes": 64.1
+    },
+    {
+      "link_mbps": 250,
+      "minutes": 25.6
+    },
+    {
+      "link_mbps": 500,
+      "minutes": 12.8
+    },
+    {
+      "link_mbps": 1000,
+      "minutes": 6.4
+    }
+  ],
+  "assumptions": {
+    "bytes_per_request_token": 4.0,
+    "bytes_per_streamed_token": 30.0,
+    "protocol_overhead": 1.08,
+    "stream_tokens_per_second": 75,
+    "wifi_goodput_factor": 0.7
+  }
+}

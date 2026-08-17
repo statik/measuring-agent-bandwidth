@@ -1,0 +1,35 @@
+[project]
+name = "netimpact"
+version = "0.1.0"
+description = "Estimate the network load of hands-on workshops, including AI assistant traffic"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+dependencies = [
+    "shiny==1.7.0",
+    "typst==0.15.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+    "ruff==0.16.3",
+    "ty==0.0.72",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ty.rules]
+possibly-unresolved-reference = "error"
