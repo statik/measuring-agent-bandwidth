@@ -694,9 +694,10 @@
               We measured a 20-student, 6-hour hands-on workshop built around
               Posit Assistant. The one-time installer and package downloads move
               <strong>33.66&nbsp;GB</strong>. The AI assistant — every
-              conversation, every student, all day — moves
-              <strong>144.89&nbsp;MB</strong>. That is 0.4% of the total, an
-              average of 0.054&nbsp;Mbps across the whole room.
+              conversation, every student, all day, modeled from token
+              metadata of 597 real agent sessions — moves
+              <strong>385.78&nbsp;MB</strong>. That is about 1% of the total,
+              an average of 0.14&nbsp;Mbps across the whole room.
             </p>
             <table>
               <thead>
@@ -716,8 +717,8 @@
                 </tr>
                 <tr>
                   <td>AI assistant traffic, entire 6-hour session</td>
-                  <td class="num">144.89 MB</td>
-                  <td class="num">7.2 MB</td>
+                  <td class="num">385.78 MB</td>
+                  <td class="num">19.3 MB</td>
                   <td><span class="badge success">Background noise</span></td>
                 </tr>
                 <tr>
@@ -776,15 +777,16 @@
             <div class="grid grid-3">
               <div class="source">
                 <strong>One assistant conversation</strong>
-                <span>≈ 1.7 MB — about the same as loading one news homepage.</span>
+                <span>≈ 2.7 MB — about the same as loading a news homepage or
+                two.</span>
               </div>
               <div class="source">
                 <strong>One student's entire day</strong>
-                <span>≈ 7.2 MB — about 12 seconds of HD video streaming.</span>
+                <span>≈ 19 MB — about half a minute of HD video streaming.</span>
               </div>
               <div class="source">
                 <strong>The whole room's entire day</strong>
-                <span>≈ 145 MB — about 13 minutes of a single video call.</span>
+                <span>≈ 386 MB — about half an hour of a single video call.</span>
               </div>
             </div>
             <div class="callout">
@@ -905,9 +907,9 @@
               <tbody>
                 <tr>
                   <td>First conversation with Posit Assistant (16 round trips)</td>
-                  <td class="num">1.68 MB</td>
-                  <td class="num">1.68 MB</td>
-                  <td class="num">33.52 MB</td>
+                  <td class="num">2.68 MB</td>
+                  <td class="num">2.68 MB</td>
+                  <td class="num">53.57 MB</td>
                 </tr>
                 <tr>
                   <td>querychat exercises — natural-language SQL over data</td>
@@ -917,17 +919,51 @@
                 </tr>
                 <tr>
                   <td>General assistant use: debugging, plots, dashboards (4 conversations)</td>
-                  <td class="num">1.23 MB</td>
-                  <td class="num">4.92 MB</td>
-                  <td class="num">98.50 MB</td>
+                  <td class="num">3.99 MB</td>
+                  <td class="num">15.97 MB</td>
+                  <td class="num">319.33 MB</td>
                 </tr>
               </tbody>
             </table>
+            <div class="grid grid-2">
+              <div class="source">
+                <strong>Uplink: ~4 bytes per token</strong>
+                <span>Tokenizers average ~4 characters per token for English
+                and code; request bodies are uncompressed UTF-8 JSON, so bytes
+                ≈ characters. Verifiable by dividing a payload's JSON length by
+                its token count.</span>
+              </div>
+              <div class="source">
+                <strong>Downlink: ~30 bytes per streamed token</strong>
+                <span>Streamed responses arrive as server-sent events; each
+                delta wraps a few tokens of text in a JSON envelope plus SSE
+                framing. Verifiable with mitmproxy: response bytes ÷ output
+                tokens from the provider's usage block.</span>
+              </div>
+              <div class="source">
+                <strong>Statelessness and caching</strong>
+                <span>Chat APIs document that each request carries the full
+                message history, and prompt caching caches server-side compute
+                — the prompt still crosses the wire. Uplink therefore grows
+                quadratically with conversation length, which the model sums
+                exactly.</span>
+              </div>
+              <div class="source">
+                <strong>Conversation shapes — calibrated</strong>
+                <span>The agentic blocks take their parameters from aggregate
+                token metadata of 597 real coding-agent sessions (median: 21
+                round trips, 24k-token starting context, ~330 output tokens per
+                response; median session ≈ 4.4 MB on the wire). The querychat
+                block follows that tool's one-request schema-to-SQL design.</span>
+              </div>
+            </div>
             <p>
-              The model is deliberately generous — long agentic tool-use loops,
-              growing context, every student participating — and the total
-              still rounds to noise. Even if the model were wrong by a factor
-              of five, the assistant would draw a quarter of one video call.
+              The shapes are calibrated, deliberately generous, and the
+              conclusion is insensitive to them: even a 10× modeling error puts
+              the room at 3.9&nbsp;GB — still about a tenth of the download
+              burst. Every constant, the calibration procedure, and its
+              grounding are documented in
+              <a href="https://github.com/statik/measuring-agent-bandwidth/blob/main/METHODOLOGY.md">METHODOLOGY.md</a>.
             </p>
             <div class="callout warning">
               Provider-side prompt caching reduces cost and latency, not
@@ -969,8 +1005,9 @@
             </div>
             <p>
               Scale math is transparent: per-item size × students × share gives
-              room aggregates, and the burst table assumes 70% of link speed as
-              real-world Wi-Fi goodput. To validate against real traffic before
+              room aggregates, and the burst table assumes shared Wi-Fi delivers
+              about 70% of the advertised link speed to actual downloads. To
+              validate against real traffic before
               an event, proxy the IDE through mitmproxy and read per-host byte
               counts while running the workshop script once, use
               <code>nettop</code> (macOS) or Resource Monitor (Windows) for
@@ -1072,7 +1109,7 @@ preset = "half-day-workshop"</pre>
             </div>
             <div class="callout">
               None of these techniques are needed for the assistant itself.
-              There is nothing to stage, cache, or schedule for 0.054 Mbps.
+              There is nothing to stage, cache, or schedule for 0.14 Mbps.
             </div>
           </div>
         </div>
@@ -1099,8 +1136,10 @@ preset = "half-day-workshop"</pre>
                 <span>Token constants (4 B/request token, 30 B/streamed token,
                 1.08× overhead, 75 tok/s streaming) are stated in every report
                 and in <code>netimpact/engine.py</code>. Conversation shapes
-                come from the published getting-started walkthrough and
-                querychat exercise patterns.</span>
+                come from the published workshop scripts, calibrated against
+                aggregate token metadata from 597 real agent sessions via
+                <code>netimpact.calibrate</code> — token counts only, no
+                conversation content.</span>
               </div>
               <div class="source">
                 <strong>Caveat — release drift</strong>
@@ -1112,8 +1151,8 @@ preset = "half-day-workshop"</pre>
                 <strong>Caveat — usage variance</strong>
                 <span>A student who pastes a large dataset into chat sends more
                 than the model assumes. The gap that matters is bounded: even
-                10× the modeled assistant traffic is 1.4 GB for the room —
-                still smaller than two Positron downloads.</span>
+                10× the modeled assistant traffic is 3.9 GB for the room —
+                still about a tenth of the download burst.</span>
               </div>
             </div>
             <div class="footer">
@@ -1163,7 +1202,19 @@ I would like netimpact to be a shiny app that I can deploy to connect.posit.clou
 
 Follow-up: attribution
 
-don't mention the project that inspired the typst formatting</pre>
+don't mention the project that inspired the typst formatting
+
+Follow-up: plain language and methodology grounding
+
+yeah, restate in plain language. I also need a description of the methodology or rubric/model that is being used to estimate posit assistant conversations and what the grounding is for those assumptions
+
+Follow-up: calibration idea
+
+how can I get a better estimate of conversation bandwidth - can we use agentsview against some of my own conversations in order to get a better guess on conversation sizes for an AI agent?
+
+Follow-up: calibration privacy
+
+don't include any of the actual data from my agent conversations, but you can use the metadata to create a model of conversation sizes</pre>
           </div>
         </div>
       </div>

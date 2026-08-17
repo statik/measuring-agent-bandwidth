@@ -31,14 +31,14 @@
   table.vline(x: 3, stroke: 0.3pt + luma(88%)), table.vline(x: 4, stroke: 0.3pt + luma(88%)),
   [#bignum[33.66 GB] \ #text(size: 7.5pt, fill: luma(45%), tracking: 0.8pt)[#upper[One-time downloads]]],
   [#bignum[1.68 GB] \ #text(size: 7.5pt, fill: luma(45%), tracking: 0.8pt)[#upper[Avg per student]]],
-  [#bignum[144.89 MB] \ #text(size: 7.5pt, fill: luma(45%), tracking: 0.8pt)[#upper[Assistant, whole room]]],
-  [#bignum[0.054 Mbps] \ #text(size: 7.5pt, fill: luma(45%), tracking: 0.8pt)[#upper[Assistant room average]]],
+  [#bignum[385.78 MB] \ #text(size: 7.5pt, fill: luma(45%), tracking: 0.8pt)[#upper[Assistant, whole room]]],
+  [#bignum[0.143 Mbps] \ #text(size: 7.5pt, fill: luma(45%), tracking: 0.8pt)[#upper[Assistant room average]]],
   [#bignum[0.39 Mbps] \ #text(size: 7.5pt, fill: luma(45%), tracking: 0.8pt)[#upper[All streams at once]]],
 )
 #line(length: 100%, stroke: 0.6pt + luma(55%))
 
 #seclabel[Venue impact]
-#text(size: 10.5pt)[AI assistant traffic is negligible: 144.89 MB for the whole room over the full session, averaging 0.054 Mbps — less than one video call. Plan around the one-time 33.66 GB download burst: stagger the install step or ask attendees to install before arriving.]
+#text(size: 10.5pt)[AI assistant traffic is negligible: 385.78 MB for the whole room over the full session, averaging 0.143 Mbps — less than one video call. Plan around the one-time 33.66 GB download burst: stagger the install step or ask attendees to install before arriving.]
 
 #seclabel[Installers — 31.28 GB total]
 #table(columns: (1fr, auto, auto, auto, 88pt), stroke: none, inset: (x: 8pt, y: 7pt),
@@ -79,15 +79,15 @@
   table.header(colhead[Activity], colhead[Convs/student], colhead[Per conversation],
     colhead[Per student], colhead[Room total]),
   table.hline(stroke: 0.6pt + luma(55%)),
-  [#text(weight: 500)[First conversation with Posit Assistant]], [1], [1.68 MB], [1.68 MB], [#bignum[33.52 MB]],
+  [#text(weight: 500)[First conversation with Posit Assistant]], [1], [2.68 MB], [2.68 MB], [#bignum[53.57 MB]],
   table.hline(stroke: 0.3pt + luma(88%)),
   [#text(weight: 500)[querychat exercises (natural-language data queries)]], [2], [321.84 KB], [643.68 KB], [#bignum[12.87 MB]],
   table.hline(stroke: 0.3pt + luma(88%)),
-  [#text(weight: 500)[General assistant use (debugging, plots, dashboards)]], [4], [1.23 MB], [4.92 MB], [#bignum[98.50 MB]],
+  [#text(weight: 500)[General assistant use (debugging, plots, dashboards)]], [4], [3.99 MB], [15.97 MB], [#bignum[319.33 MB]],
   table.hline(stroke: 0.3pt + luma(88%)),
 )
 #v(3pt)
-#text(size: 9pt, fill: luma(35%))[Whole room, whole session: 144.89 MB — an average of 0.054 Mbps. If every student's assistant streamed a response at the same instant: about 0.39 Mbps, less than one video call.]
+#text(size: 9pt, fill: luma(35%))[Whole room, whole session: 385.78 MB — an average of 0.143 Mbps. If every student's assistant streamed a response at the same instant: about 0.39 Mbps, less than one video call.]
 
 #seclabel[Worst case — every student downloads everything at the venue, at once]
 #table(columns: (auto, auto, 120pt), stroke: none, inset: (x: 8pt, y: 7pt),
@@ -106,9 +106,9 @@
   table.hline(stroke: 0.3pt + luma(88%)),
 )
 #v(3pt)
-#text(size: 9pt, fill: luma(35%))[Assumes 70% of link speed as real-world Wi-Fi goodput.
-Staggering the install step or asking attendees to install before arriving removes this burst
-entirely.]
+#text(size: 9pt, fill: luma(35%))[Assumes shared Wi-Fi delivers about 70% of the
+advertised link speed to actual downloads. Staggering the install step or asking attendees to
+install before arriving removes this burst entirely.]
 
 #seclabel[Assumptions]
 #text(size: 8.5pt, fill: luma(35%))[
@@ -118,5 +118,6 @@ entirely.]
   SSE framing, 1.08× TLS/HTTP overhead, responses streaming at
   75 tokens/second. Chat APIs are stateless — each round trip
   re-sends the conversation so far, which the model accounts for; provider-side prompt caching
-  reduces cost and latency but not network transfer.
+  reduces cost and latency but not network transfer. Full model description and grounding:
+  github.com/statik/measuring-agent-bandwidth (METHODOLOGY.md).
 ]
